@@ -66,6 +66,7 @@ while run:
         break
 
     p1.update(win)
+    displayName(p1,win)
 
     enemyLis = network.exchange(p1)
 
