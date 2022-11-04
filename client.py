@@ -50,7 +50,9 @@ clock = pygame.time.Clock()
 
 enemyLis = []
 
-while True:
+run = True
+
+while run:
 
     for eve in pygame.event.get():
             
@@ -71,7 +73,8 @@ while True:
     for ene in enemyLis:
         if ene:
             if p1.collisionEnemy(ene):
-                break
+                run = False
+                
             ene.drawPlayer(win)
             displayName(ene,win)
 
