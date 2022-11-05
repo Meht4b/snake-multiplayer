@@ -5,6 +5,7 @@ import pickle
 import random
 
 
+
 host = 'localhost'
 port = 9090
 
@@ -16,34 +17,40 @@ playerNo = 0
 
 server.listen()
 
+print('server started')
+
 def handleClient(conn,playerno):
 
-    userName = conn.recv(100).decode()
 
-    print(userName)
 
-    objectList[playerno]=Player(random.randint(0,700),random.randint(0,700),(random.randint(0,255),random.randint(0,255),random.randint(0,255)),10,10,50,userName)
+    try:
+        userName = conn.recv(100).decode()
+        objectList[playerno]=Player(random.randint(0,700),random.randint(0,700),(random.randint(60,255),random.randint(60,255),random.randint(60,255)),10,10,50,userName)
+        conn.send(pickle.dumps(objectList[playerno]))
+        print(f'{userName} connected')
 
-    print(objectList[playerno])
-
-    conn.send(pickle.dumps(objectList[playerno]))
+    except:
+        pass
 
     while True:
         
-        objectList[playerno]=pickle.loads(conn.recv(5000))
+        try:
+            objectList[playerno]=pickle.loads(conn.recv(5000))
+            if objectList[playerno] == False:
 
-        objectList[playerno]
+                conn.close()
+                del objectList[playerno]
 
-        if objectList[playerno] == False:
+                break
 
+            temp = objectList.copy()
+            temp.pop(playerno)
+
+            conn.send(pickle.dumps(list(temp.values())))
+        except:
             conn.close()
             del objectList[playerno]
             break
-
-        temp = objectList.copy()
-        temp.pop(playerno)
-
-        conn.send(pickle.dumps(list(temp.values())))
 
 while True:
 
@@ -51,5 +58,6 @@ while True:
 
     thread = threading.Thread(target=handleClient,args=(conn,playerNo))
     thread.start()
+    
 
     playerNo += 1
