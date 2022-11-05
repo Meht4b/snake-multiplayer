@@ -6,9 +6,9 @@ import pickle
 pygame.init()
 
 def displayName(obj,win):
-    font = pygame.font.Font(None,20)
+    font = pygame.font.Font(None,23)
     
-    colour = (obj.colour[0]-10,obj.colour[1]-10,obj.colour[2]-10)
+    colour = (obj.colour[0]-20,obj.colour[1]-20,obj.colour[2]-20)
 
 
     text = font.render(obj.name,True,colour)
