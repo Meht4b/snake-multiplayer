@@ -25,7 +25,7 @@ def handleClient(conn,playerno):
 
     try:
         userName = conn.recv(100).decode()
-        objectList[playerno]=Player(random.randint(0,700),random.randint(0,700),(random.randint(60,255),random.randint(60,255),random.randint(60,255)),10,10,50,userName)
+        objectList[playerno]=Player(random.randint(0,700),random.randint(0,700),(random.randint(60,255),random.randint(60,255),random.randint(60,255)),7,6,60,userName)
         conn.send(pickle.dumps(objectList[playerno]))
         print(f'{userName} connected')
 
