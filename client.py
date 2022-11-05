@@ -1,4 +1,5 @@
-iimport pygame
+
+import pygame
 from gameclass import *
 import sys
 
