@@ -6,8 +6,12 @@ import pickle
 pygame.init()
 
 def displayName(obj,win):
-    font = pygame.font.Font(None,12)
-    text = font.render(obj.name,True,obj.colour)
+    font = pygame.font.Font(None,20)
+    
+    colour = (obj.colour[0]-10,obj.colour[1]-10,obj.colour[2]-10)
+
+
+    text = font.render(obj.name,True,colour)
     textRec = text.get_rect()
     textRec.center = (obj.posx,obj.posy-15)
 
@@ -34,7 +38,6 @@ class rec:
     def draw(self,win):
 
         pygame.draw.rect(win,self.colour,(self.posx,self.posy,self.size,self.size))
-
 
 class Player(rec):
 
@@ -89,6 +92,7 @@ class Player(rec):
         #checks if we need to check collision, i.e. enemy is too far away
 
         if abs(self.posx-enemy.posx)>enemy.length and abs(self.posy-enemy.posy)>enemy.length:
+
             return False
 
         #checks collision, returns True if collision
@@ -108,19 +112,15 @@ class Player(rec):
                 continue
 
             if pygame.Rect.colliderect(pygame.Rect(self.posx,self.posy,self.size,self.size),pygame.Rect(t.posx,t.posy,t.size,t.size)):
-                print(self.posx,self.posy,t.posx,t.posy)
-                print(i)
+
                 return True
         return False
         
     def drawPlayer(self,win):
 
-
-
         self.draw(win)
 
         for tra in self.trailLis:
-            
             tra.draw(win)
 
     def update(self,win):
@@ -141,11 +141,11 @@ class clientNetwork:
     def connect(self,usrname):
         self.socket.connect((self.host,self.port))
         self.socket.send(usrname.encode())
-        return pickle.loads(self.socket.recv(500))
+        return pickle.loads(self.socket.recv(1000))
     
     def exchange(self,object):
         self.socket.send(pickle.dumps(object))
-        return pickle.loads(self.socket.recv(2048))
+        return pickle.loads(self.socket.recv(2048*2))
 
     def close(self):
         self.socket.send(pickle.dumps(False))
