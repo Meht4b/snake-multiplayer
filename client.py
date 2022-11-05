@@ -1,8 +1,8 @@
-import pygame
+iimport pygame
 from gameclass import *
 import sys
 
-win = pygame.display.set_mode((1000,1000))
+win = pygame.display.set_mode((700,700))
 
 #username vars
 
@@ -25,9 +25,11 @@ while userNameFlag:
 
         if eve.type == pygame.KEYDOWN:
             if eve.key == pygame.K_RETURN:
-                print('hljals')
                 userNameFlag = False
-            userName += eve.unicode
+            elif eve.key == pygame.K_BACKSPACE:
+                userName = userName[:len(userName)-1]
+            else:
+                userName += eve.unicode
 
 
     inputNameRect = inputName.get_rect()
@@ -66,16 +68,15 @@ while run:
         break
 
     p1.update(win)
-    displayName(p1,win)
 
     enemyLis = network.exchange(p1)
+    displayName(p1,win)
 
     
     for ene in enemyLis:
         if ene:
             if p1.collisionEnemy(ene):
                 run = False
-                
             ene.drawPlayer(win)
             displayName(ene,win)
 
@@ -88,4 +89,5 @@ network.close()
 pygame.quit()
 
     
+
 
