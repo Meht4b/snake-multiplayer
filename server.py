@@ -6,7 +6,7 @@ import random
 
 
 
-host = 'localhost'
+host = '192.168.182.206'
 port = 9090
 
 server = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
